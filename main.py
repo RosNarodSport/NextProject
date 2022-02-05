@@ -1,10 +1,14 @@
 import sqlite3
+import sys
+
 from db.hieroglyphs import *
-from handler.users_login import *
+from handler.db_connect import *
 from PyQt5 import QtCore
 from PyQt5 import uic
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import *
+
+from handler.users_login import cur
 
 From, Window = uic.loadUiType("views/cadr25_step2.ui")
 
@@ -14,54 +18,56 @@ form = From()
 form.setupUi(window)
 window.show()
 
-def create_main_table_for_show():
-    hsk_db = sqlite3.connect('hsk_base.db')
-    cursor = hsk_db.cursor()
-    cursor.execute('CREATE TABLE IF NOT EXISTS main_table_for_show('
-                   'number INTEGER, '
-                   'hieroglyph TEXT, '
-                   'pinyin TEXT, '
-                   'translation TEXT, '
-                   'phrase TEXT, hsk TEXT'
-                   ')')
 
-def insert_hsk_into_main_table():
-    hsk_db = sqlite3.connect('hsk_base.db')
-    cursor = hsk_db.cursor()
-    print(hsk[0][1])
-    for i in range(0, len(hsk)):
-        cursor.execute('INSERT INTO main_table_for_show VALUES(?,?,?,?,?,?)', (
-                        hsk[i][0], hsk[i][1], hsk[i][2], hsk[i][3], hsk[i][4], hsk[i][5]))
-        hsk_db.commit()
+def btn_hsk1():
+    if form.checkBox_show_hsk1.isChecked() == True:
+        print('метка hsk1 выставлена')
 
-# insert_hsk_into_main_table()
-# create_main_table_for_show()
-hsk_db = sqlite3.connect('hsk_base.db')
-cursor = hsk_db.cursor()
-cursor.execute("SELECT * FROM main_table_for_show WHERE hsk = 'HSK2'")
-rez = cursor.fetchall()
+# Заготовка передачи строки. Еще надо ее разложить на элеенты (столбцы конкретные взять)
 
-# Определил, сколько я набрал по выборке строк
-coumt_num = cursor.execute("SELECT COUNT(*) FROM main_table_for_show WHERE hsk = 'HSK2'").fetchall()
-rezult = coumt_num[0][0] # Получил числовое значение, например 150
-print(rezult)
-for i in range(0, rezult):
-    print(rez[i][1])
+select_row_and_this_element(0)
+select_row_and_this_element(1)
+select_row_and_this_element(2)
+select_row_and_this_element(3)
+select_row_and_this_element(4)
+select_row_and_this_element(5)
+
+def show_me_dictionary(): # Надо подставить значения из БД из одной строки поэлментно
+
+    # query = ""
+    # cursor.execute(query, ())
+
+    form.label_number.setText('number')
+
+    form.label_hieroglyph.setText('hieroglyph')
+
+    form.label_pinyin.setText('pinyin')
+
+    form.label_translation.setText('translation')
+
+    form.label_phrase.setText('phrase')
+
+    form.label_HSK.setText('hsk')
 
 
+hsk_group = 'HSK1'
+this_element = ['number', 'hieroglyph', 'pinyin', 'translation', 'phrase', 'hsk']
 
-class Dictionary():
-    __slots_ = ['number', 'hieroglyph', 'pinyin', 'translation', 'phrase', 'hsk']
+rrr = select_row(1)
+print('--------------')
+print(rrr)
 
-    def __init__(self, number, hieroglyph, pinyin, translation, phrase, hsk):
-        self.__number = number
-        self.__hieroglyph = hieroglyph
-        self.__pinyin = pinyin
-        self.__translation = translation
-        self.__phrase = phrase
-        self.__hsk = hsk
+# select_row_and_this_element(rrr, this_element[0])
 
-    def one_dicionary(self):
-        pass
+# print_my_hsk_group(hsk_group)
 
+def end_all():
+    sys.exit(app.exec_())
+
+
+
+
+form.checkBox_show_hsk1.stateChanged.connect(btn_hsk1)
+form.pushButton_start_all.clicked.connect(show_me_dictionary)
+form.pushButton_end.clicked.connect(end_all)
 app.exec_()
