@@ -25,41 +25,22 @@ def btn_hsk1():
 
 # Заготовка передачи строки. Еще надо ее разложить на элеенты (столбцы конкретные взять)
 
-select_row_and_this_element(0)
-select_row_and_this_element(1)
-select_row_and_this_element(2)
-select_row_and_this_element(3)
-select_row_and_this_element(4)
-select_row_and_this_element(5)
-
 def show_me_dictionary(): # Надо подставить значения из БД из одной строки поэлментно
 
     # query = ""
     # cursor.execute(query, ())
+    i = 1 # this_row в if select_row_and_this_element(this_row, element):
+    form.label_number.setText(f'{select_row_and_this_element(i, 0)}')
 
-    form.label_number.setText('number')
+    form.label_hieroglyph.setText(f'{select_row_and_this_element(i, 1)}')
 
-    form.label_hieroglyph.setText('hieroglyph')
+    form.label_pinyin.setText(f'{select_row_and_this_element(i, 2)}')
 
-    form.label_pinyin.setText('pinyin')
+    form.label_translation.setText(f'{select_row_and_this_element(i, 3)}')
 
-    form.label_translation.setText('translation')
+    form.label_phrase.setText(f'{select_row_and_this_element(i, 4)}')
 
-    form.label_phrase.setText('phrase')
-
-    form.label_HSK.setText('hsk')
-
-
-hsk_group = 'HSK1'
-this_element = ['number', 'hieroglyph', 'pinyin', 'translation', 'phrase', 'hsk']
-
-rrr = select_row(1)
-print('--------------')
-print(rrr)
-
-# select_row_and_this_element(rrr, this_element[0])
-
-# print_my_hsk_group(hsk_group)
+    form.label_HSK.setText(f'{select_row_and_this_element(i, 5)}')
 
 def end_all():
     sys.exit(app.exec_())

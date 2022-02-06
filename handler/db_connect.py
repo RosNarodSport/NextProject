@@ -47,18 +47,26 @@ def select_row(this_row): # Пробегаю по строкам. Работае
     return selected_row
 
 
-def select_row_and_this_element(element): # Надо вытащить элемент статьи (строки) конкретный
+def select_row_and_this_element(this_row, element): # Надо вытащить элемент статьи (строки) конкретный
+    raw = select_row(this_row)
+    num = raw[0][0]
+    # print('num: --->', num)
     this_element = ['number', 'hieroglyph', 'pinyin', 'translation', 'phrase', 'hsk']
-    query_raw = f"SELECT {this_element[element]} FROM main_table_for_show"
-    selected_row = cursor.execute(query_raw).fetchall()
-    rezult = selected_row[0][0]
-    print(rezult)
-    return rezult
+    # print('this_element[element] ---> ', this_element[element])
+    query_raw = f"SELECT {this_element[element]} FROM main_table_for_show WHERE number = ?"
+
+    selected_row = cursor.execute(query_raw, (num, )).fetchall()
+    print(selected_row[0][0])
+
+    return selected_row[0][0]
+
+
 
 if __name__ == "__main__":
-    select_row_and_this_element(0)
-    select_row_and_this_element(1)
-    select_row_and_this_element(2)
-    select_row_and_this_element(3)
-    select_row_and_this_element(4)
-    select_row_and_this_element(5)
+    i = 1
+    select_row_and_this_element(i, 0)
+    select_row_and_this_element(i, 1)
+    select_row_and_this_element(i, 2)
+    select_row_and_this_element(i, 3)
+    select_row_and_this_element(i, 4)
+    select_row_and_this_element(i, 5)
