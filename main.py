@@ -4,6 +4,7 @@ import sys
 from db.hieroglyphs import *
 from handler.db_connect import *
 from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 from PyQt5 import uic
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import *
@@ -59,5 +60,91 @@ form.pushButton_end.clicked.connect(end_all)
 
 # Размер иероглифа
 form.horizontalSlider_size.valueChanged.connect(horizontalSlider_size_Value)
+
+
+
+
+
+# Комплект кода для авторизации
+#
+#
+# base_line_edit = [form.lineEdit_user_name, form.lineEdit_user_password]
+#
+# # Проверка правильности ввода в поля логин и пароль
+# def check_input(function):
+#     print('Работает кнопка pushButton_login')
+#
+#     def wrapper():
+#         for line_edit in base_line_edit:
+#             if len(line_edit.text()) == 0:
+#                 return
+#             function()
+#         return wrapper
+#
+# @check_input
+# def authorization(function):
+#
+#     user_name = form.lineEdit_user_name.text()
+#     user_password = form.lineEdit_user_password.text()
+#     check_db.thr_login(user_name, user_password)
+#
+# @check_input
+# def registration(function):
+#     print('Работает кнопка pushButton_sign_up')
+#     user_name = form.lineEdit_user_name.text()
+#     user_password = form.lineEdit_user_password.text()
+#     check_db.thr_login(user_name, user_password)
+#
+#
+# global value
+# # Обраотчик сигналов
+# def signal_handler():
+#     QtWidgets.QMessageBox.about('Оповещение', value)
+#
+# class CheckThread():
+#     mysignal = QtCore.pyqtSignal(str)
+#
+#     def thr_login(self, user_name, user_password):
+#         login(user_name, user_password, self.mysignal)
+#
+#     def thr_register(self, user_name, user_password):
+#         register(user_name, user_password, self.mysignal)
+#
+#
+# def login(user_name, user_password, signal):
+#     con = sqlite3.connect('db/users.db')
+#     cur = con.cursor()
+#
+#     # Проверка, есть ли такой пользователь
+#     query = 'SELECT * FROM users WHERE user_name = ?'
+#     cur.execute(query, (login,))
+#     value = cur.fetchall()
+#
+#     if value != [] and value[0][2] == user_password:
+#         signal.emit('Успешная авторищация')
+#     else:
+#         signal.emit('Проверьте правильность ввода пароляя')
+#     cur.close()
+#     con.close()
+#
+#
+# def register():
+#     pass
+#
+#
+# check_db = CheckThread() # Создаем экземпляр класса одного модуля
+# # check_db.mysignal.connect(signal_handler) # Обработчик сигнала
+#
+#
+# # def check_db():
+# #     pass
+# #
+# #
+# # def CheckThread():
+# #     pass
+#
+# # Комплекс регистрации польователя
+# form.pushButton_login.clicked.connect(check_input)
+# # form.pushButton_sign_up.clicked.connect(registration)
 
 app.exec_()
