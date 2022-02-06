@@ -23,13 +23,11 @@ def btn_hsk1():
     if form.checkBox_show_hsk1.isChecked() == True:
         print('метка hsk1 выставлена')
 
-# Заготовка передачи строки. Еще надо ее разложить на элеенты (столбцы конкретные взять)
 
-def show_me_dictionary(): # Надо подставить значения из БД из одной строки поэлментно
+i = 100
 
-    # query = ""
-    # cursor.execute(query, ())
-    i = 1 # this_row в if select_row_and_this_element(this_row, element):
+
+def show_me_dictionary():
     form.label_number.setText(f'{select_row_and_this_element(i, 0)}')
 
     form.label_hieroglyph.setText(f'{select_row_and_this_element(i, 1)}')
@@ -42,13 +40,24 @@ def show_me_dictionary(): # Надо подставить значения из 
 
     form.label_HSK.setText(f'{select_row_and_this_element(i, 5)}')
 
+
 def end_all():
     sys.exit(app.exec_())
 
 
+def horizontalSlider_size_Value():
+    hieroglyph_size = form.horizontalSlider_size.value()
+    print(hieroglyph_size)
+    if hieroglyph_size > 6 and hieroglyph_size < 50:
+        form.label_hieroglyph.setFont(QFont('Arial', hieroglyph_size))
+        form.label_for_horizontalSlider_size.setFont(QFont('Arial', hieroglyph_size))
 
 
 form.checkBox_show_hsk1.stateChanged.connect(btn_hsk1)
 form.pushButton_start_all.clicked.connect(show_me_dictionary)
 form.pushButton_end.clicked.connect(end_all)
+
+# Размер иероглифа
+form.horizontalSlider_size.valueChanged.connect(horizontalSlider_size_Value)
+
 app.exec_()

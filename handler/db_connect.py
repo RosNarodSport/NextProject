@@ -21,6 +21,11 @@ def insert_hsk_into_main_table():
             hsk[i][0], hsk[i][1], hsk[i][2], hsk[i][3], hsk[i][4], hsk[i][5]))
         hsk_db.commit()
 
+# def insert_one(one):
+#     query = 'INSERT INTO users VALUES(?)'
+#     cursor.execute(query, (one,))
+#     hsk_db.commit()
+
 
 # insert_hsk_into_main_table()
 # create_main_table_for_show()
