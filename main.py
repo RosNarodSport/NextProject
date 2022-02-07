@@ -65,27 +65,29 @@ form.horizontalSlider_size.valueChanged.connect(horizontalSlider_size_Value)
 # Пользователя в базе данных. Нужно все просмотреть снова
 def user_logged():
     try:
-        # Ловлю ввод логина и пароля
+        # Ловлю ввод логина и пароля. В пременные login, password забиваются данные Пользователем
         login = form.lineEdit_user_name.text()
         password = form.lineEdit_user_password.text()
 
-        # Забираю всю БД в выдачу для оформления окна
+        # Забираю всю БД в выдачу для оформления окна (это когда все хорошо и Пользователь принят)
         base = sqlite3.connect('hsk_base.db')
         cur = base.cursor()
         query_all = "SELECT * FROM users"
         cur.execute(query_all)
         rezult = cur.fetchall()
 
-        # Проверяю факт регистрации Пользователя по логину и паролю
-        query_login = "SELECT * FROM users WHERE user_name = ?"
-        cur.execute(query_login, (login,))
-        rezult_login = cur.fetchall()
-
-        query_password = "SELECT * FROM users WHERE user_password = ?"
-        cur.execute((query_password, (password,)))
-        rezult_password = cur.fetchall()
-
-        if rezult_login[0][2] != login and rezult_password[0][3] != password:
+        # # Проверяю факт регистрации Пользователя по логину и паролю. Скорее всего тут косяк с выдачей и запросами!!!
+        # query_login = "SELECT * FROM users WHERE user_name = ?"
+        # cur.execute(query_login, (login,))
+        # rezult_login = cur.fetchall()
+        #
+        # query_password = "SELECT * FROM users WHERE user_password = ?"
+        # cur.execute((query_password, (password,)))
+        # rezult_password = cur.fetchall()
+        rezult_password = '263166'
+        rezult_login = 'igor'
+        # Дальше надо все перепроверять. Кнопка pushButton_logi зависает!!!
+        if rezult_login != login and rezult_password != password:
             form.label_info_for_user.setText("Введены\nнекорректные\nданные!")
 
         else:
@@ -108,16 +110,16 @@ def user_logged():
     except base.Error:
         form.label_info_for_user.setText("<span style='color: #f00;'>Ошибка <br>ввода</span>")
 
-
-def increase_level():
-    base = sqlite3.connect('hsk_base.db')
-    cur = base.cursor()
-    num_for_increase_level = 5
-    if num_for_increase_level > 2:
-        query_level = "UPDATE users SET user_level = num_for_increase_level WHERE user_id = {rezult[0][0]}"
-        cur.execute(query_level, (num_for_increase_level,))
-    base.commit()
-    return num_for_increase_level
+# Надо проверять еще раз все в комплексе
+# def increase_level():
+#     base = sqlite3.connect('hsk_base.db')
+#     cur = base.cursor()
+#     num_for_increase_level = 5
+#     if num_for_increase_level > 2:
+#         query_level = "UPDATE users SET user_level = num_for_increase_level WHERE user_id = {rezult[0][0]}"
+#         cur.execute(query_level, (num_for_increase_level,))
+#     base.commit()
+#     return num_for_increase_level
 
 
 # # Комплекс регистрации польователя
