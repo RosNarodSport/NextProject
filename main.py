@@ -61,24 +61,31 @@ form.horizontalSlider_size.valueChanged.connect(horizontalSlider_size_Value)
 
 
 
-# Комплект кода для авторизации
+# Комплект кода для авторизации. По состоянию на конеч 7.2.22 не могу выполнить проверку
+# Пользователя в базе данных. Нужно все просмотреть снова
 def user_logged():
     try:
-        user_name = form.lineEdit_user_name.text()
-        user_password = form.lineEdit_user_password.text()
+        # Ловлю ввод логина и пароля
+        login = form.lineEdit_user_name.text()
+        password = form.lineEdit_user_password.text()
 
+        # Забираю всю БД в выдачу для оформления окна
         base = sqlite3.connect('hsk_base.db')
         cur = base.cursor()
-        # "SELECT email,password from users where email like '"+email + "'and password like '"+password+"'"
-
-        query = "SELECT * FROM users"
-
-        cur.execute(query)
-
+        query_all = "SELECT * FROM users"
+        cur.execute(query_all)
         rezult = cur.fetchall()
 
+        # Проверяю факт регистрации Пользователя по логину и паролю
+        query_login = "SELECT * FROM users WHERE user_name = ?"
+        cur.execute(query_login, (login,))
+        rezult_login = cur.fetchall()
 
-        if rezult == None:
+        query_password = "SELECT * FROM users WHERE user_password = ?"
+        cur.execute((query_password, (password,)))
+        rezult_password = cur.fetchall()
+
+        if rezult_login[0][2] != login and rezult_password[0][3] != password:
             form.label_info_for_user.setText("Введены\nнекорректные\nданные!")
 
         else:
@@ -95,18 +102,28 @@ def user_logged():
             form.label_num_hieroglyphs_in_show.setText(f'Показ по {rezult[0][10]} шт.')
             form.label_hieroglyph_size.setText(f'{rezult[0][3]}')
 
-            form.lineEdit_user_name.setText('')
-            form.lineEdit_user_password.setText('')
-            # mydialog = QDialog()
-            # mydialog.setModal(True)
-            # mydialog.exec()
+            # Подсчет количества удачных вхождений и условие user_level > 20 значит левел больше на 1
+            # increase_level()
 
     except base.Error:
         form.label_info_for_user.setText("<span style='color: #f00;'>Ошибка <br>ввода</span>")
 
 
+def increase_level():
+    base = sqlite3.connect('hsk_base.db')
+    cur = base.cursor()
+    num_for_increase_level = 5
+    if num_for_increase_level > 2:
+        query_level = "UPDATE users SET user_level = num_for_increase_level WHERE user_id = {rezult[0][0]}"
+        cur.execute(query_level, (num_for_increase_level,))
+    base.commit()
+    return num_for_increase_level
+
+
 # # Комплекс регистрации польователя
 form.pushButton_login.clicked.connect(user_logged)
+# form.pushButton_login.clicked.connect(increase_level)
+
 # # form.pushButton_sign_up.clicked.connect(registration)
 
 app.exec_()
