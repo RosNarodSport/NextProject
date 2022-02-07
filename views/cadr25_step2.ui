@@ -68,7 +68,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="label_enter_user_name">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -81,7 +81,7 @@
        <string>Имя</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_5">
+     <widget class="QLabel" name="label_enter_user_password">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -120,7 +120,7 @@
        <string>Регистрация</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_6">
+     <widget class="QLabel" name="label_info_for_user">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -131,25 +131,30 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>12</pointsize>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="text">
-       <string>Приветствие
-Пользователя</string>
+       <string>Информация
+по входу</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="label_7">
+     <widget class="QLabel" name="label_user_name">
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>210</y>
+        <y>200</y>
         <width>101</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
       </property>
       <property name="text">
        <string>user_name</string>
@@ -202,19 +207,19 @@
        <rect>
         <x>330</x>
         <y>120</y>
-        <width>91</width>
+        <width>101</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>Цветовая схема:</string>
+       <string>label_color_scheme</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_12">
+     <widget class="QLabel" name="label_user_level">
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>240</y>
+        <y>250</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -280,7 +285,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Ваши предудущие настройки</string>
+       <string>Ваши предыдущие настройки</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -379,14 +384,14 @@
      <widget class="QLabel" name="label_speed_show_label">
       <property name="geometry">
        <rect>
-        <x>210</x>
+        <x>200</x>
         <y>90</y>
-        <width>111</width>
+        <width>121</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>Скорость показа:</string>
+       <string>Задержка при  показе:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -1,15 +1,11 @@
 import sqlite3
 import sys
 
-from db.hieroglyphs import *
-from handler.db_connect import *
-from PyQt5 import QtCore
-from PyQt5 import QtWidgets
-from PyQt5 import uic
+from PyQt5 import uic, QtGui
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import *
 
-from handler.users_login import cur
+from handler.db_connect import select_row_and_this_element
 
 From, Window = uic.loadUiType("views/cadr25_step2.ui")
 
@@ -66,85 +62,51 @@ form.horizontalSlider_size.valueChanged.connect(horizontalSlider_size_Value)
 
 
 # Комплект кода для авторизации
-#
-#
-# base_line_edit = [form.lineEdit_user_name, form.lineEdit_user_password]
-#
-# # Проверка правильности ввода в поля логин и пароль
-# def check_input(function):
-#     print('Работает кнопка pushButton_login')
-#
-#     def wrapper():
-#         for line_edit in base_line_edit:
-#             if len(line_edit.text()) == 0:
-#                 return
-#             function()
-#         return wrapper
-#
-# @check_input
-# def authorization(function):
-#
-#     user_name = form.lineEdit_user_name.text()
-#     user_password = form.lineEdit_user_password.text()
-#     check_db.thr_login(user_name, user_password)
-#
-# @check_input
-# def registration(function):
-#     print('Работает кнопка pushButton_sign_up')
-#     user_name = form.lineEdit_user_name.text()
-#     user_password = form.lineEdit_user_password.text()
-#     check_db.thr_login(user_name, user_password)
-#
-#
-# global value
-# # Обраотчик сигналов
-# def signal_handler():
-#     QtWidgets.QMessageBox.about('Оповещение', value)
-#
-# class CheckThread():
-#     mysignal = QtCore.pyqtSignal(str)
-#
-#     def thr_login(self, user_name, user_password):
-#         login(user_name, user_password, self.mysignal)
-#
-#     def thr_register(self, user_name, user_password):
-#         register(user_name, user_password, self.mysignal)
-#
-#
-# def login(user_name, user_password, signal):
-#     con = sqlite3.connect('db/users.db')
-#     cur = con.cursor()
-#
-#     # Проверка, есть ли такой пользователь
-#     query = 'SELECT * FROM users WHERE user_name = ?'
-#     cur.execute(query, (login,))
-#     value = cur.fetchall()
-#
-#     if value != [] and value[0][2] == user_password:
-#         signal.emit('Успешная авторищация')
-#     else:
-#         signal.emit('Проверьте правильность ввода пароляя')
-#     cur.close()
-#     con.close()
-#
-#
-# def register():
-#     pass
-#
-#
-# check_db = CheckThread() # Создаем экземпляр класса одного модуля
-# # check_db.mysignal.connect(signal_handler) # Обработчик сигнала
-#
-#
-# # def check_db():
-# #     pass
-# #
-# #
-# # def CheckThread():
-# #     pass
-#
+def user_logged():
+    try:
+        user_name = form.lineEdit_user_name.text()
+        user_password = form.lineEdit_user_password.text()
+
+        base = sqlite3.connect('hsk_base.db')
+        cur = base.cursor()
+        # "SELECT email,password from users where email like '"+email + "'and password like '"+password+"'"
+
+        query = "SELECT * FROM users"
+
+        cur.execute(query)
+
+        rezult = cur.fetchall()
+
+
+        if rezult == None:
+            form.label_info_for_user.setText("Введены\nнекорректные\nданные!")
+
+        else:
+
+            form.label_info_for_user.setText("<span style='color: #008000;'>Успешный <br>вход</span>")
+            form.label_user_name.setText(f'Вы вошли\nпод НИКом: {rezult[0][1]}')
+            form.label_user_level.setText(f'Ваш уровень: {rezult[0][8]}')
+
+            form.label_hsk_group.setText(f'{rezult[0][6]}')
+            form.label_speed_show.setText(f'{rezult[0][4]} секунд')
+            form.label_label_color_scheme_label.setText(f"<span style='color: {rezult[0][5]}' >Цветовая схема</span>")
+            form.label_color_scheme.setText(f"<span style='color: {rezult[0][5]}' >{rezult[0][5]}</span>")
+            form.label_show_new_start_point_2.setText(f'С номера -> {rezult[0][7]}')
+            form.label_num_hieroglyphs_in_show.setText(f'Показ по {rezult[0][10]} шт.')
+            form.label_hieroglyph_size.setText(f'{rezult[0][3]}')
+
+            form.lineEdit_user_name.setText('')
+            form.lineEdit_user_password.setText('')
+            # mydialog = QDialog()
+            # mydialog.setModal(True)
+            # mydialog.exec()
+
+    except base.Error:
+        form.label_info_for_user.setText("<span style='color: #f00;'>Ошибка <br>ввода</span>")
+
+
 # # Комплекс регистрации польователя
-# form.pushButton_login.clicked.connect(check_input)
+form.pushButton_login.clicked.connect(user_logged)
 # # form.pushButton_sign_up.clicked.connect(registration)
 
 app.exec_()
