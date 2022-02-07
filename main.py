@@ -66,8 +66,8 @@ form.horizontalSlider_size.valueChanged.connect(horizontalSlider_size_Value)
 def user_logged():
     try:
         # Ловлю ввод логина и пароля. В пременные login, password забиваются данные Пользователем
-        login = form.lineEdit_user_name.text()
-        password = form.lineEdit_user_password.text()
+        rezult_login = form.lineEdit_user_name.text()
+        rezult_password = form.lineEdit_user_password.text()
 
         # Забираю всю БД в выдачу для оформления окна (это когда все хорошо и Пользователь принят)
         base = sqlite3.connect('hsk_base.db')
@@ -77,17 +77,21 @@ def user_logged():
         rezult = cur.fetchall()
 
         # # Проверяю факт регистрации Пользователя по логину и паролю. Скорее всего тут косяк с выдачей и запросами!!!
-        # query_login = "SELECT * FROM users WHERE user_name = ?"
-        # cur.execute(query_login, (login,))
-        # rezult_login = cur.fetchall()
+        query_login = "SELECT * FROM users WHERE user_name = ?"
+        cur.execute(query_login, (rezult_login,))
+        rezult_login = cur.fetchall()
         #
         # query_password = "SELECT * FROM users WHERE user_password = ?"
         # cur.execute((query_password, (password,)))
         # rezult_password = cur.fetchall()
-        rezult_password = '263166'
-        rezult_login = 'igor'
+
+        # Это заглушка, она позволила увидеть что программа работает
+        # rezult_login = login
+        rezult_log = 'igor'
+        rezult_pas = '263166'
+
         # Дальше надо все перепроверять. Кнопка pushButton_logi зависает!!!
-        if rezult_login != login and rezult_password != password:
+        if rezult_login != rezult_log and rezult_password != rezult_pas:
             form.label_info_for_user.setText("Введены\nнекорректные\nданные!")
 
         else:
