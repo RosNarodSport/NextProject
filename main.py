@@ -65,45 +65,21 @@ form.horizontalSlider_size.valueChanged.connect(horizontalSlider_size_Value)
 # Пользователя в базе данных. Нужно все просмотреть снова
 def user_logged():
     try:
-        # Ловлю ввод логина и пароля. В пременные login, password забиваются данные Пользователем
         rezult_l = form.lineEdit_user_name.text()
         rezult_p = form.lineEdit_user_password.text()
-        print('rezult_l ', rezult_l)
-        print('rezult_p ', rezult_p)
-        # Забираю всю БД в выдачу для оформления окна (это когда все хорошо и Пользователь принят)
         base = sqlite3.connect('hsk_base.db')
         cur = base.cursor()
-        query_all = "SELECT * FROM users"
-        cur.execute(query_all)
-        rezult = cur.fetchall()
-
-        # # Проверяю факт регистрации Пользователя по логину и паролю. Скорее всего тут косяк с выдачей и запросами!!!
         query_login = "SELECT * FROM users WHERE user_name = ?"
         cur.execute(query_login, (rezult_l,))
         rezult_login = cur.fetchall()
 
-        # query_password = "SELECT * FROM users WHERE user_password = ?"
-        # cur.execute((query_password, (rezult_p,)))
-        # rezult_password = cur.fetchall()
-
-        print('rezult_login ', rezult_login[0][1])
-        print('rezult_password ', rezult_login[0][2])
-
-        # Это заглушка, она позволила увидеть что программа работает
-        # rezult_login = login
-        # rezult_log = 'igor'
-        # rezult_pas = '263166'
-
-        # Дальше надо все перепроверять. Кнопка pushButton_logi зависает!!!
-        if rezult_login[0][1] != rezult_l and rezult_login[0][2] != rezult_p:
+        if rezult_login != [] and rezult_login[0][2] != rezult_p:
             form.label_info_for_user.setText("Введены\nнекорректные\nданные!")
 
         else:
-
             form.label_info_for_user.setText("<span style='color: #008000;'>Успешный <br>вход</span>")
             form.label_user_name.setText(f'Вы вошли\nпод НИКом: {rezult_login[0][1]}')
             form.label_user_level.setText(f'Ваш уровень: {rezult_login[0][8]}')
-
             form.label_hsk_group.setText(f'{rezult_login[0][6]}')
             form.label_speed_show.setText(f'{rezult_login[0][4]} секунд')
             form.label_label_color_scheme_label.setText(f"<span style='color: {rezult_login[0][5]}' >Цветовая схема</span>")
@@ -112,10 +88,7 @@ def user_logged():
             form.label_num_hieroglyphs_in_show.setText(f'Показ по {rezult_login[0][10]} шт.')
             form.label_hieroglyph_size.setText(f'{rezult_login[0][3]}')
 
-            # Подсчет количества удачных вхождений и условие user_level > 20 значит левел больше на 1
-            # increase_level()
-
-    except base.Error:
+    except:
         form.label_info_for_user.setText("<span style='color: #f00;'>Ошибка <br>ввода</span>")
 
 # Надо проверять еще раз все в комплексе
@@ -129,11 +102,13 @@ def user_logged():
 #     base.commit()
 #     return num_for_increase_level
 
+def user_registration():
+    print('Попытка регистрации')
 
-# # Комплекс регистрации польователя
+# Комплекс регистрации польователя
 form.pushButton_login.clicked.connect(user_logged)
-# form.pushButton_login.clicked.connect(increase_level)
+# form.pushButton_sign_up.clicked.connect(user_registration)
 
-# # form.pushButton_sign_up.clicked.connect(registration)
+# form.pushButton_login.clicked.connect(increase_level)
 
 app.exec_()
