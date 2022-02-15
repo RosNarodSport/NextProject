@@ -1,6 +1,6 @@
 import sqlite3
 import sys
-from datetime import datetime
+import datetime
 
 from PyQt5 import uic, QtGui
 from PyQt5.QtGui import QFont
@@ -22,7 +22,7 @@ def btn_hsk1():
         print('метка hsk1 выставлена')
 
 
-i = 100
+i = 100 # Тестовый параметр, с какого иероглифа начяать показ
 
 
 def show_me_dictionary():
@@ -59,8 +59,6 @@ form.pushButton_end.clicked.connect(end_all)
 form.horizontalSlider_size.valueChanged.connect(horizontalSlider_size_Value)
 
 
-# Комплект кода для авторизации. По состоянию на конеч 7.2.22 не могу выполнить проверку
-# Пользователя в базе данных. Нужно все просмотреть снова
 def user_logged():
     try:
         rezult_l = form.lineEdit_user_name.text()
@@ -70,17 +68,10 @@ def user_logged():
         query_login = "SELECT * FROM users WHERE user_name = ?"
         cur.execute(query_login, (rezult_l,))
         rezult_login = cur.fetchall()
-
         if rezult_login != [] and rezult_login[0][2] != rezult_p:
             form.label_info_for_user.setText("Введены\nнекорректные\nданные!")
-
-            # Обновляю дату последнего обращения к программе
-            nnn = datetime.datetime.now()
-            print(nnn)
-
-
-
         else:
+            # Обновляю дату последнего обращения к программе
             form.label_info_for_user.setText("<span style='color: #008000;'>Успешный <br>вход</span>")
             form.label_user_name.setText(f'Вы вошли\nпод НИКом: {rezult_login[0][1]}')
             form.label_user_level.setText(f'Ваш уровень: {rezult_login[0][8]}')
@@ -93,41 +84,9 @@ def user_logged():
             form.label_num_hieroglyphs_in_show.setText(f'Показ по {rezult_login[0][10]} шт.')
             form.label_hieroglyph_size.setText(f'{rezult_login[0][3]}')
             form.label_last_date.setText(f'{rezult_login[0][13]}')
-
-            # new_date = set_new_date(cur, rezult_login[0][13], rezult_login[0][1])
-            # form.label_current_date.setText(f'{new_date}')
-            form.label_current_date.setText('*****')
-
-
-
     except:
         form.label_info_for_user.setText("<span style='color: #f00;'>Ошибка <br>ввода</span>")
 
-
-# Вытаскиваю новую дату (она же текущая), которую вставил взамен старой
-def set_new_date(cur, last_date, user_name):
-    if last_date != datetime.datetime.now():
-        query_new_date = f"UPDATE users SET last_date = {datetime.datetime.now()}" \
-                         f"WHERE user_name={user_name}"
-        cur.execute(query_new_date)
-        query_get_new_date = "SELECT * FROM users WHERE user_name = {user_name}"
-        new_date = cur.execute(query_get_new_date).fetchone()
-
-        print('Новая дата: ', last_date)
-
-        return new_date
-
-
-# Надо проверять еще раз все в комплексе
-# def increase_level():
-#     base = sqlite3.connect('hsk_base.db')
-#     cur = base.cursor()
-#     num_for_increase_level = 5
-#     if num_for_increase_level > 2:
-#         query_level = "UPDATE users SET user_level = num_for_increase_level WHERE user_id = {rezult[0][0]}"
-#         cur.execute(query_level, (num_for_increase_level,))
-#     base.commit()
-#     return num_for_increase_level
 
 def user_registration():
     print('Попытка регистрации')
@@ -135,8 +94,6 @@ def user_registration():
 
 # Комплекс регистрации польователя
 form.pushButton_login.clicked.connect(user_logged)
-# form.pushButton_sign_up.clicked.connect(user_registration)
-
-# form.pushButton_login.clicked.connect(increase_level)
+form.pushButton_sign_up.clicked.connect(user_registration)
 
 app.exec_()
