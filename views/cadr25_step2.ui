@@ -169,7 +169,7 @@
        </font>
       </property>
       <property name="text">
-       <string>user_name</string>
+       <string>...</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -185,7 +185,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>speed_show</string>
+       <string>...</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_hieroglyph_size">
@@ -198,7 +198,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>hieroglyph_size</string>
+       <string>...</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_hsk_group">
@@ -211,7 +211,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>hsk_group</string>
+       <string>...</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_color_scheme">
@@ -224,7 +224,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>label_color_scheme</string>
+       <string>...</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_user_level">
@@ -237,7 +237,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>user_level</string>
+       <string>...</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -253,7 +253,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>show_new_start_point</string>
+       <string>...</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_num_hieroglyphs_in_show">
@@ -266,7 +266,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>num_hieroglyphs_in_show</string>
+       <string>...</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_name_of_show_complect">
@@ -326,7 +326,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>last_date</string>
+       <string>...</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_label_color_scheme_label">
@@ -998,7 +998,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>current_date</string>
+       <string>...</string>
       </property>
      </widget>
     </widget>

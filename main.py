@@ -84,16 +84,62 @@ def user_logged():
             form.label_num_hieroglyphs_in_show.setText(f'Показ по {rezult_login[0][10]} шт.')
             form.label_hieroglyph_size.setText(f'{rezult_login[0][3]}')
             form.label_last_date.setText(f'{rezult_login[0][13]}')
+            l_date = datetime.datetime.now()
+            form.label_current_date.setText(f'{l_date.date()}')
+
     except:
-        form.label_info_for_user.setText("<span style='color: #f00;'>Ошибка <br>ввода</span>")
+        form.label_info_for_user.setText("<span style='color: #f00;'>Ошибка <br>ввхода</span>")
+
+def u_reg():
+    try:
+        rezult_log = form.lineEdit_user_name.text()
+        rezult_pasw = form.lineEdit_user_password.text()
+        print(rezult_log, rezult_pasw)
+
+        base = sqlite3.connect('hsk_base.db')
+        cur = base.cursor()
+
+        query_reg = "INSERT INTO users (user_name, user_password) VALUES(:rezult_log, :rezult_pasw)"
+        cur.execute(query_reg, (rezult_log, rezult_pasw))
+        base.commit()
+
+        form.label_info_for_user.setText("<span style='color: #008000;'>Успешно!</span>")
+
+        query_reg_select = "SELECT * FROM users WHERE user_name = ?"
+        cur.execute(query_reg_select, (rezult_log,))
+        rez_login = cur.fetchall()
+
+        print(f'Имя нового пользователя: {rez_login[0][1]}, Пароль нового пользователя: {rez_login[0][2]}')
+
+        # if rezult_login != [] and rezult_login[0][2] != rezult_p:
+        #     form.label_info_for_user.setText("Введены\nнекорректные\nданные!")
+        # else:
+        #     print(f'rezult_login: {rezult_login[0][1]}')
+
+        # Обновляю дату последнего обращения к программе
+        form.label_info_for_user.setText("<span style='color: #008000;'>Успешный <br>вход</span>")
+        form.label_user_name.setText(f'Вы вошли\nпод НИКом: {rez_login[0][1]}')
+        form.label_user_level.setText(f'Ваш уровень: {rez_login[0][8]}')
+        form.label_hsk_group.setText(f'{rez_login[0][6]}')
+        form.label_speed_show.setText(f'{rez_login[0][4]} секунд')
+        form.label_label_color_scheme_label.setText(
+            f"<span style='color: {rez_login[0][5]}' >Цветовая схема</span>")
+        form.label_color_scheme.setText(f"<span style='color: {rez_login[0][5]}' >{rez_login[0][5]}</span>")
+        form.label_show_new_start_point_2.setText(f'С номера -> {rez_login[0][7]}')
+        form.label_num_hieroglyphs_in_show.setText(f'Показ по {rez_login[0][10]} шт.')
+        form.label_hieroglyph_size.setText(f'{rez_login[0][3]}')
+        form.label_last_date.setText(f'{rez_login[0][13]}')
+        l_date = datetime.datetime.now()
+        form.label_current_date.setText(f'{l_date.date()}')
+
+    except:
+        form.label_info_for_user.setText("<span style='color: #f00;'>Ошибка <br>регистрации</span>")
 
 
-def user_registration():
-    print('Попытка регистрации')
 
 
 # Комплекс регистрации польователя
 form.pushButton_login.clicked.connect(user_logged)
-form.pushButton_sign_up.clicked.connect(user_registration)
+form.pushButton_sign_up.clicked.connect(u_reg)
 
 app.exec_()
